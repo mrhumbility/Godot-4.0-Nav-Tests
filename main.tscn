@@ -65,3 +65,5 @@ skeleton = NodePath("../WorldEnvironment")
 [node name="RayCast3D" type="RayCast3D" parent="."]
 
 [node name="SelectionBox3D" parent="." instance=ExtResource("5_hqib3")]
+
+[node name="SelectedDestinationDots" type="Node3D" parent="."]

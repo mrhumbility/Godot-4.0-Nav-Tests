@@ -3,17 +3,20 @@ extends RigidDynamicBody3D
 signal debug_event
 signal unit_selected
 
-var goal_pos : Vector3
-var click_pos : Vector3
-var group_index = 0
-var group_size = 1
-var destinations = []
+#var goal_pos : Vector3
+#var click_pos : Vector3
+#var group_index = 0
+#var group_size = 1
+var Destination = preload("res://scripts/objects/destination.gd").Destination
+var dest = Destination.new(Vector3.ZERO, Vector3.ZERO, 0, 1)
+var destinations = preload("res://scripts/objects/destinations.gd").Destinations.new()
 var selected = false
 
 const SPEED = 3
 const ACC = 4
 var vel = Vector3.ZERO
 var moving = false
+var resetting = false
 
 
 func _ready():
@@ -54,7 +57,7 @@ func _physics_process(delta):
 
 
 func _process(delta):
-	var dist = global_transform.origin.distance_to(goal_pos)
+	var dist = global_transform.origin.distance_to(dest.goal_pos)
 	if ($NavigationAgent3D.is_navigation_finished() and
 			dist > $NavigationAgent3D.target_desired_distance * 2 and
 			$IdleTimer.is_stopped()):
@@ -63,50 +66,72 @@ func _process(delta):
 	var screen_pos = GameManager.camera.unproject_position(global_transform.origin + $TopOfHead.position)
 	$ProgressBar.position = Vector2(screen_pos[0] - ($ProgressBar.size[0] * 0.5), screen_pos[1] - 5)
 	
+	for node in $PathLine.get_children():
+		node.queue_free()
+	if moving and selected and destinations.size() > 0:
+		var line = _click_pos_line(Vector3.ZERO, dest.click_pos)
+		$PathLine.add_child(line)
+		
 
+func _click_pos_line(start: Vector3, end: Vector3):
+	var node = Node3D.new()
+	var line = MeshInstance3D.new()
+	line.mesh = BoxMesh.new()
+	var s = 0.025
+	line.mesh.size = Vector3(s, s, 1)
+	line.position.z += -0.5
+	var mat = StandardMaterial3D.new()
+	mat.albedo_color = Color(0, 1, 0, 0.25)
+	mat.transparency = 1
+	line.set_surface_override_material(0, mat)
+	node.add_child(line)
+	node.scale.z = start.distance_to(end - position)
+	node.look_at_from_position(start, end - position)
+	return node
+	
 
-func set_destination(_goal_pos:Vector3, _click_pos, _group_index, _group_size):
-	var destination = {
-		'goal_pos': _goal_pos,
-		'click_pos': _click_pos,
-		'group_index': _group_index,
-		'group_size': _group_size,
-		}
+func set_destination(_goal_pos:Vector3, _click_pos:Vector3, _group_index:int, _group_size:int):
+#	var destination = {
+#		'goal_pos': _goal_pos,
+#		'click_pos': _click_pos,
+#		'group_index': _group_index,
+#		'group_size': _group_size,
+#		}
+	var new_dest = Destination.new(_goal_pos, _click_pos, _group_index, _group_size)
 	destinations.clear()
-	destinations.append(destination)
+	destinations.append(new_dest)
 	_next_destination()
 
 
 func _next_destination():
-	goal_pos = destinations[0]['goal_pos']
-	click_pos = destinations[0]['click_pos']
-	group_index = destinations[0]['group_index']
-	group_size = destinations[0]['group_size']
-	$NavigationAgent3D.set_target_location(goal_pos)
+#	goal_pos = destinations[0]['goal_pos']
+#	click_pos = destinations[0]['click_pos']
+#	group_index = destinations[0]['group_index']
+#	group_size = destinations[0]['group_size']
+	dest = destinations.first()
+	$NavigationAgent3D.set_target_location(dest.goal_pos)
 	destinations.remove_at(0)
+	resetting = false
 	#print('New destination for: ' + str(name) + ' - ' + str(goal_pos))
 
 
 func _reset_destination():
-	var positions = Utils.calc_goal_position(click_pos, group_size)
-	goal_pos = positions[group_index]
-	group_index = Utils.randInt(0, group_size)
-	$NavigationAgent3D.set_target_location(goal_pos)
+	var positions = Utils.calc_goal_position(dest.click_pos, dest.group_size)
+	dest.group_index = Utils.randInt(0, dest.group_size)
+	dest.goal_pos = positions[dest.group_index]
+	$NavigationAgent3D.set_target_location(dest.goal_pos)
+	resetting = true
 
 
 func append_destination(_goal_pos, _click_pos, _group_index, _group_size):
-	var destination = {
-		'goal_pos': _goal_pos,
-		'click_pos': _click_pos,
-		'group_index': _group_index,
-		'group_size': _group_size,
-		}
-	destinations.append(destination)
+	var new_dest = Destination.new(_goal_pos, _click_pos, _group_index, _group_size)
+	destinations.append(new_dest)
 	if !moving:
 		_next_destination()
 
 
 func _on_navigation_agent_3d_navigation_finished():
+	pass
 	if destinations.size() > 0:
 		_next_destination()
 	else:
@@ -142,7 +167,6 @@ func _on_penguin_input_event(camera, event, position, normal, shape_idx):
 
 func _selection_updated():
 	selected = GameManager.selected_entities.has(self)
-	print(selected)
 
 
 func _on_navigation_agent_3d_velocity_computed(safe_velocity):

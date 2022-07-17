@@ -2,7 +2,7 @@ extends Node
 
 var rnd = RandomNumberGenerator.new()
 
-var debug = true #
+var debug = false #
 
 func fit(val, minin, maxin, minout, maxout):
 	val = clamp(val, minin, maxin)

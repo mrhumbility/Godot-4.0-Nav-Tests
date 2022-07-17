@@ -12,7 +12,7 @@ func _ready():
 func _process(delta):
 	if parent.moving:
 		visible = true
-		global_transform.origin = parent.goal_pos
+		global_transform.origin = parent.dest.goal_pos
 	else:
 		visible = false
 

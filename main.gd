@@ -10,8 +10,6 @@ var _mdrag_start = Vector2()
 var _mdrag_end = Vector2()
 var _is_dragging = false
 
-var paths: Array = []
-
 func _ready():
 	GameManager.startup($Units, $Cam, $NavigationRegion3D/map_002)
 	GameManager.spawnUnits()
@@ -89,13 +87,73 @@ func _input(event):
 				GameManager.emit_signal('move_units', event.global_position)
 
 
-#func _process(delta):
-#	if GameManager.selected_entities.size() > 0:
-#		# There are only units right now so just assuming that unit.destinations will not fail\
-#		for unit in GameManager.selected_entities.get_selection():
-#			if unit.destinations.size() > 0 and !paths.has(unit.destinations['click_pos']):
-#				paths.append(unit.destinations['click_pos'])
-#				var dot = MeshInstance3D.new()
-#				dot.mesh = BoxMesh.new()
-#				dot.position = unit.destinations['click_pos']
+func _process(delta):
+	var destinations = []
+	if GameManager.selected_entities.size() > 0:
+		# There are only units right now so just assuming that unit.destinations will not fail
+		for unit in GameManager.selected_entities.get_selection():
+			if unit.moving:
+				if !destinations.has(unit.dest.click_pos):
+					destinations.insert(0, unit.dest.click_pos)
+				if unit.destinations.size() > 0:
+					for dest in unit.destinations.get_destinations():
+						if !destinations.has(dest.click_pos):
+							destinations.append(dest.click_pos)
+# 	# This section is gross
+#	for node in $SelectedDestinationDots.get_children():
+#		var found = false
+#		for dest in new_paths:
+#			if node.position == dest.click_pos:
+#				found = true
+#		if !found:
+#			node.queue_free()
+#	for dest in new_paths:
+#		var found = false
+#		for node in $SelectedDestinationDots.get_children():
+#			if dest.click_pos == node.position:
+#				found = true
+#		if !found:
+#			var dot = _click_pos_dot(dest.click_pos)
+#			$SelectedDestinationDots.add_child(dot)
+	
+	# This seems a lot simpler. Is this fine? Rebuilding every frame
+	# instead of only when needed but with extra for loops and stuff
+	for node in $SelectedDestinationDots.get_children():
+		node.queue_free()
+	
+	for i in range(destinations.size()):
+		var dest = destinations[i]
+		var dot = _click_pos_dot(dest)
+		$SelectedDestinationDots.add_child(dot)
+		if i + 1 < destinations.size():
+			var next_dest = destinations[i + 1]
+			var line = _click_pos_line(dest, next_dest)
+			$SelectedDestinationDots.add_child(line)
 
+
+func _click_pos_dot(pos: Vector3):
+	# Repalce this with a scene of some sort later
+	var dot = MeshInstance3D.new()
+	dot.mesh = BoxMesh.new()
+	var mat = StandardMaterial3D.new()
+	mat.albedo_color = Color(0, 0, 1)
+	dot.set_surface_override_material(0, mat)
+	var s = 0.2
+	dot.mesh.size = Vector3(s, s, s)
+	dot.position = pos
+	return dot
+
+func _click_pos_line(start: Vector3, end: Vector3):
+	var node = Node3D.new()
+	var line = MeshInstance3D.new()
+	line.mesh = BoxMesh.new()
+	var s = 0.025
+	line.mesh.size = Vector3(s, s, 1)
+	line.position.z += -0.5
+	var mat = StandardMaterial3D.new()
+	mat.albedo_color = Color(0, 1, 0)
+	line.set_surface_override_material(0, mat)
+	node.add_child(line)
+	node.scale.z = start.distance_to(end)
+	node.look_at_from_position(start, end)
+	return node

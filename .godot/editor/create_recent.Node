@@ -1,3 +1,4 @@
+Node3D
 Position3D
 ProgressBar
 Control
@@ -9,7 +10,6 @@ Timer
 Area3D
 Camera3D
 WorldEnvironment
-Node3D
 StaticBody3D
 CharacterBody3D
 SkeletonIK3D
