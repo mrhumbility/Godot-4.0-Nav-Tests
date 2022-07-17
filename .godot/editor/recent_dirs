@@ -1,5 +1,6 @@
-res://geo/map_001/v001
 res://geo/map_002/v001
+res://autoload
+res://geo/map_001/v001
 res://ui
 res://helpers
 res://units
@@ -7,4 +8,3 @@ res://scripts
 res://cameras
 res://maps
 res://
-res://autoload

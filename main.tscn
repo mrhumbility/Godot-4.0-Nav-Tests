@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dhlu21x8ouvis"]
+[gd_scene load_steps=12 format=3 uid="uid://dhlu21x8ouvis"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_nqhdp"]
 [ext_resource type="PackedScene" uid="uid://ch716t1ikeitd" path="res://ui/ui.tscn" id="2_0uj0u"]
 [ext_resource type="PackedScene" uid="uid://cwk587k6ampty" path="res://maps/map_002.tscn" id="2_yotus"]
 [ext_resource type="PackedScene" uid="uid://vk683i738jgt" path="res://cameras/cam.tscn" id="3_2kksy"]
+[ext_resource type="ArrayMesh" uid="uid://ba7b5ot2117e5" path="res://geo/map_002/v001/mountains_v001.obj" id="4_ova05"]
 [ext_resource type="PackedScene" uid="uid://cgmh1k74ccds7" path="res://ui/selection_box_3d.tscn" id="5_hqib3"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_4fquy"]
@@ -16,6 +17,9 @@ agent_radius = 0.2
 agent_max_climb = 5.0
 agent_max_slope = 75.0
 detail_sample_max_error = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c0uvo"]
+albedo_color = Color(0.14902, 0.282353, 0.188235, 1)
 
 [sub_resource type="Environment" id="Environment_de2oi"]
 
@@ -35,6 +39,10 @@ mouse_filter = 1
 navmesh = SubResource("NavigationMesh_4fquy")
 
 [node name="map_002" parent="NavigationRegion3D" instance=ExtResource("2_yotus")]
+
+[node name="Mountains" type="MeshInstance3D" parent="."]
+mesh = ExtResource("4_ova05")
+surface_material_override/0 = SubResource("StandardMaterial3D_c0uvo")
 
 [node name="Cam" parent="." instance=ExtResource("3_2kksy")]
 transform = Transform3D(0.5, -0.612372, 0.612372, 0, 0.707107, 0.707107, -0.866025, -0.353553, 0.353553, 27.9776, 26.5674, 16.5456)

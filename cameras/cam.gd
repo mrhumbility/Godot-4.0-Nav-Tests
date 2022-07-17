@@ -11,7 +11,7 @@ const MMB_DRAG_SPEED = 10
 const DRAG_SPEED = 20
 const ZOOM_SPEED = 1
 const MAX_ZOOM_LEVEL = 8
-const ZOOM_IN_MULT = 2
+const ZOOM_IN_MULT = 3
 const BORDER = 10.0 # % proximity to screen edge
 
 var dragging = false
@@ -49,7 +49,7 @@ func _input(event):
 
 
 func _process(delta):
-	if !dragging:
+	if !dragging and Input.mouse_mode == 3:
 		var screen_size = get_viewport().get_visible_rect().size
 		var mouse_pos = get_viewport().get_mouse_position()
 		var x = Utils.fit(mouse_pos.x, 0, screen_size[0] * (1 / BORDER), -1, 0)

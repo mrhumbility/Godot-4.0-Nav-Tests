@@ -85,6 +85,12 @@ func _input(event):
 				GameManager.emit_signal('append_destination', event.global_position)
 			else:
 				GameManager.emit_signal('move_units', event.global_position)
+	
+	if Input.is_action_just_pressed('esc'):
+		if Input.mouse_mode == 3:
+			Input.set_mouse_mode(0)
+		else:
+			Input.set_mouse_mode(3)
 
 
 func _process(delta):
