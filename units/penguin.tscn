@@ -72,6 +72,8 @@ percent_visible = false
 [node name="TopOfHead" type="Position3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.499649, 0)
 
+[node name="PathLine" type="Node3D" parent="."]
+
 [connection signal="input_event" from="." to="." method="_on_penguin_input_event"]
 [connection signal="sleeping_state_changed" from="." to="." method="_on_penguin_sleeping_state_changed"]
 [connection signal="navigation_finished" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_navigation_finished"]
