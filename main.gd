@@ -142,11 +142,11 @@ func _click_pos_dot(pos: Vector3):
 	var r = 0.1
 	dot.mesh.radius = r
 	dot.mesh.height = r * 1
-	#dot.mesh.size = Vector3(r, r, r)
 	dot.position = pos
 	return dot
 
 func _click_pos_line(start: Vector3, end: Vector3):
+	# Repalce this with a scene of some sort later
 	var node = Node3D.new()
 	var line = MeshInstance3D.new()
 	line.mesh = BoxMesh.new()

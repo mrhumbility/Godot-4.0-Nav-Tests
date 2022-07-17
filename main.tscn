@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dhlu21x8ouvis"]
+[gd_scene load_steps=10 format=3 uid="uid://dhlu21x8ouvis"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_nqhdp"]
 [ext_resource type="PackedScene" uid="uid://ch716t1ikeitd" path="res://ui/ui.tscn" id="2_0uj0u"]
@@ -24,11 +24,6 @@ albedo_color = Color(1, 0.462745, 0.701961, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_qgaqt"]
 material = SubResource("StandardMaterial3D_32wva")
-
-[sub_resource type="SphereMesh" id="SphereMesh_qw5ms"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r6als"]
-albedo_color = Color(1, 0.176471, 0.0588235, 1)
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_nqhdp")
@@ -72,8 +67,3 @@ skeleton = NodePath("../WorldEnvironment")
 [node name="SelectionBox3D" parent="." instance=ExtResource("5_hqib3")]
 
 [node name="SelectedDestinationDots" type="Node3D" parent="."]
-
-[node name="MeshInstance3Dddd" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.879554, 0)
-mesh = SubResource("SphereMesh_qw5ms")
-surface_material_override/0 = SubResource("StandardMaterial3D_r6als")

@@ -3,10 +3,6 @@ extends RigidDynamicBody3D
 signal debug_event
 signal unit_selected
 
-#var goal_pos : Vector3
-#var click_pos : Vector3
-#var group_index = 0
-#var group_size = 1
 var Destination = preload("res://scripts/objects/destination.gd").Destination
 var dest = Destination.new(Vector3.ZERO, Vector3.ZERO, 0, 1)
 var destinations = preload("res://scripts/objects/destinations.gd").Destinations.new()
@@ -74,6 +70,7 @@ func _process(delta):
 		
 
 func _click_pos_line(start: Vector3, end: Vector3):
+	# Repalce this with a scene of some sort later
 	var node = Node3D.new()
 	var line = MeshInstance3D.new()
 	line.mesh = BoxMesh.new()
@@ -91,12 +88,6 @@ func _click_pos_line(start: Vector3, end: Vector3):
 	
 
 func set_destination(_goal_pos:Vector3, _click_pos:Vector3, _group_index:int, _group_size:int):
-#	var destination = {
-#		'goal_pos': _goal_pos,
-#		'click_pos': _click_pos,
-#		'group_index': _group_index,
-#		'group_size': _group_size,
-#		}
 	var new_dest = Destination.new(_goal_pos, _click_pos, _group_index, _group_size)
 	destinations.clear()
 	destinations.append(new_dest)
@@ -104,10 +95,6 @@ func set_destination(_goal_pos:Vector3, _click_pos:Vector3, _group_index:int, _g
 
 
 func _next_destination():
-#	goal_pos = destinations[0]['goal_pos']
-#	click_pos = destinations[0]['click_pos']
-#	group_index = destinations[0]['group_index']
-#	group_size = destinations[0]['group_size']
 	dest = destinations.first()
 	$NavigationAgent3D.set_target_location(dest.goal_pos)
 	destinations.remove_at(0)

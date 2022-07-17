@@ -3,7 +3,7 @@ extends MeshInstance3D
 var parent
 
 func _ready():
-	parent = get_parent().get_parent()
+	parent = get_parent().get_parent() # debug nodes go inside a node3d
 	parent.ready.connect(_parentReady)
 	if !Utils.debug:
 		queue_free()
