@@ -13,6 +13,7 @@ func _process(delta):
 	if parent.moving:
 		visible = true
 		global_transform.origin = parent.dest.click_pos
+		
 	else:
 		visible = false
 

@@ -154,7 +154,7 @@ func _click_pos_line(start: Vector3, end: Vector3):
 	mat.albedo_color = Color(0, 1, 0, 0.5)
 	mat.transparency = 1
 	line.set_surface_override_material(0, mat)
-	var s = 0.015
+	var s = 0.025
 	line.mesh.size = Vector3(s, s, 1)
 	line.position.z += -0.5
 	node.add_child(line)

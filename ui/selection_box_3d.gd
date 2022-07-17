@@ -77,6 +77,7 @@ func _checkNewSelection(_bbox_start, _bbox_end):
 
 func _process(delta):
 	if _dragging:
+		selected_entities = []
 		_checkNewSelection(_bbox_start, _bbox_end)
 		for body in get_overlapping_bodies():
 			if &"units" in body.get_groups() and body not in selected_entities:
