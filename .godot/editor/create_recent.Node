@@ -1,8 +1,8 @@
+MeshInstance3D
 Node3D
 Position3D
 ProgressBar
 Control
-MeshInstance3D
 CollisionPolygon3D
 CollisionShape3D
 RayCast3D

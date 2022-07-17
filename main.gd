@@ -134,12 +134,15 @@ func _process(delta):
 func _click_pos_dot(pos: Vector3):
 	# Repalce this with a scene of some sort later
 	var dot = MeshInstance3D.new()
-	dot.mesh = BoxMesh.new()
+	dot.mesh = SphereMesh.new()
 	var mat = StandardMaterial3D.new()
-	mat.albedo_color = Color(0, 0, 1)
+	mat.albedo_color = Color(0, 0, 1, 1)
+	mat.transparency = 1
 	dot.set_surface_override_material(0, mat)
-	var s = 0.2
-	dot.mesh.size = Vector3(s, s, s)
+	var r = 0.1
+	dot.mesh.radius = r
+	dot.mesh.height = r * 1
+	#dot.mesh.size = Vector3(r, r, r)
 	dot.position = pos
 	return dot
 
@@ -147,12 +150,13 @@ func _click_pos_line(start: Vector3, end: Vector3):
 	var node = Node3D.new()
 	var line = MeshInstance3D.new()
 	line.mesh = BoxMesh.new()
-	var s = 0.025
+	var mat = StandardMaterial3D.new()
+	mat.albedo_color = Color(0, 1, 0, 0.5)
+	mat.transparency = 1
+	line.set_surface_override_material(0, mat)
+	var s = 0.015
 	line.mesh.size = Vector3(s, s, 1)
 	line.position.z += -0.5
-	var mat = StandardMaterial3D.new()
-	mat.albedo_color = Color(0, 1, 0)
-	line.set_surface_override_material(0, mat)
 	node.add_child(line)
 	node.scale.z = start.distance_to(end)
 	node.look_at_from_position(start, end)
