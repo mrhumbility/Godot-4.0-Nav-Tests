@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmgatdt321kpr"]
+
+[ext_resource type="Script" path="res://ui/selection_box_2d.gd" id="1_5iqm0"]
+
+[node name="SelectionBox" type="Control"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_5iqm0")

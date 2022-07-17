@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://bctbjlv10nwn8"]
+
+[ext_resource type="Script" path="res://helpers/goal_pos_indicator.gd" id="1_k2inn"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_bly7o"]
+size = Vector3(0.1, 0.05, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qy3yl"]
+albedo_color = Color(0.94902, 0, 0.560784, 1)
+
+[node name="GoalPosIndicator" type="MeshInstance3D"]
+mesh = SubResource("BoxMesh_bly7o")
+surface_material_override/0 = SubResource("StandardMaterial3D_qy3yl")
+script = ExtResource("1_k2inn")

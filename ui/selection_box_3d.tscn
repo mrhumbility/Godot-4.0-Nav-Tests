@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgmh1k74ccds7"]
+
+[ext_resource type="Script" path="res://ui/selection_box_3d.gd" id="1_psv4e"]
+
+[node name="SelectionBox3D" type="Area3D" groups=["selectionBox3d"]]
+script = ExtResource("1_psv4e")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.05
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

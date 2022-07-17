@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://b1e10w4wmjsbu"]
+
+[ext_resource type="Script" path="res://helpers/indicator.gd" id="1_nnm8n"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0xmhs"]
+resource_local_to_scene = true
+transparency = 1
+albedo_color = Color(0.952941, 0, 0.0509804, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pl8qi"]
+material = SubResource("StandardMaterial3D_0xmhs")
+size = Vector3(0.1, 1, 0.1)
+
+[node name="indicator" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_pl8qi")
+script = ExtResource("1_nnm8n")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

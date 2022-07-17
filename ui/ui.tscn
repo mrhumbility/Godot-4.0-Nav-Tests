@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://ch716t1ikeitd"]
+
+[ext_resource type="Script" path="res://ui/ui.gd" id="1_nntq7"]
+[ext_resource type="PackedScene" uid="uid://cmgatdt321kpr" path="res://ui/selection_box_2d.tscn" id="2_cdmyd"]
+
+[node name="UI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_nntq7")
+
+[node name="SelectionBox" parent="." instance=ExtResource("2_cdmyd")]

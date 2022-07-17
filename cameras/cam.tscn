@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://vk683i738jgt"]
+
+[ext_resource type="Script" path="res://cameras/cam.gd" id="1_lhtmk"]
+
+[node name="Cam" type="Camera3D"]
+script = ExtResource("1_lhtmk")

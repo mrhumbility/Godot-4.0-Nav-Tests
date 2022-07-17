@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://cksr5eenpn62i"]
+
+[ext_resource type="Script" path="res://helpers/unit_nav_debug_box.gd" id="1_0pdih"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_372tc"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 0.443137, 1, 0.0470588)
+
+[sub_resource type="BoxMesh" id="BoxMesh_s70mc"]
+material = SubResource("StandardMaterial3D_372tc")
+
+[node name="UnitNavDebugBox" type="MeshInstance3D"]
+mesh = SubResource("BoxMesh_s70mc")
+script = ExtResource("1_0pdih")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
